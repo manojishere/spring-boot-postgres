@@ -1,0 +1,20 @@
+docker network create demonetwork
+
+docker build -t postgresql:demo -f PostgresqlDockerfile .
+docker build -t springboot_postgresql:demo .
+
+docker run -d --name postgresql_host --net=demonetwork -e POSTGRES_PASSWORD=docker -e POSTGRES_USER=docker -e POSTGRES_DB=docker -p 5432:5432 postgresql:demo
+
+docker run -d --net=demonetwork -p 8080:8080 springboot_postgresql:demo
+
+
+docker run --name postgresql_host -e POSTGRES_PASSWORD=docker -e POSTGRES_USER=docker -e POSTGRES_DB=docker -p 5432:5432 postgresql:demo
+
+docker run -p 8080:8080 springboot_postgresql:demo
+
+https://pramodshehan.medium.com/simple-rest-api-with-springboot-postgres-and-docker-d15071908b8a
+
+
+
+
+docker run -p 5050:80 --name doc_pgadmin --net=docker-spring-boot-postgres_demo_net -e "PGADMIN_DEFAULT_EMAIL=admin@admin.com" -e "PGADMIN_DEFAULT_PASSWORD=root"  -d dpage/pgadmin4
